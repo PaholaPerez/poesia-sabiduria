@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="es" class="dark h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géneros Literarios: Poesía y Sabiduría</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        magic: {
+                            purple: '#9d4edd',
+                            neonPurple: '#c77dff',
+                            deepDark: '#0a0612',
+                            cardDark: 'rgba(23, 15, 38, 0.75)',
+                            gold: '#ffd166',
+                            goldGlow: '#ffeeaa',
+                            cyan: '#4cc9f0',
+                            accent: '#7209b7'
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'neon-purple': '0 0 25px rgba(157, 78, 221, 0.45)',
+                        'neon-gold': '0 0 25px rgba(255, 209, 102, 0.45)',
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0612;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a2875;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9d4edd;
+        }
+
+        /* Glassmorphism styling */
+        .glass-panel {
+            background: rgba(20, 12, 34, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .glass-card {
+            background: rgba(28, 17, 48, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(157, 78, 221, 0.25);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 209, 102, 0.6);
+            box-shadow: 0 0 30px rgba(157, 78, 221, 0.4), 0 0 15px rgba(255, 209, 102, 0.2);
+            transform: translateY(-4px) scale(1.01);
+        }
+
+        /* Text glow effects */
+        .text-glow-purple {
+            text-shadow: 0 0 15px rgba(199, 125, 255, 0.6);
+        }
+        .text-glow-gold {
+            text-shadow: 0 0 15px rgba(255, 209, 102, 0.6);
+        }
+
+        /* Dynamic fluid typography */
+        .title-hero {
+            font-size: clamp(2rem, 5vw + 1rem, 4.2rem);
+        }
+        .subtitle-hero {
+            font-size: clamp(1.2rem, 2.5vw + 0.5rem, 2.2rem);
+        }
+
+        /* Card Flip Effect */
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner, .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Slide Transition Animations */
+        .slide-page {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px) scale(0.98);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .slide-page.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Canvas Background */
+        #magicCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Animated pulse ring */
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 4s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-magic-deepDark text-gray-100 font-sans min-h-screen flex flex-col overflow-x-hidden selection:bg-magic-purple selection:text-white">
+
+    <!-- Interactive Particle Background Canvas -->
+    <canvas id="magicCanvas"></canvas>
+
+    <!-- App Container -->
+    <div class="relative z-10 flex flex-col min-h-screen w-full max-w-[1920px] mx-auto">
+
+        <!-- Top Navigation Header -->
+        <header class="glass-panel sticky top-0 z-40 px-4 lg:px-8 py-3 flex items-center justify-between border-b border-purple-900/40">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="goToSlide(0)">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-700 via-magic-purple to-magic-gold flex items-center justify-center shadow-neon-purple">
+                    <i class="fa-solid font-cinzel text-lg text-white font-bold">📖</i>
+                </div>
+                <div>
+                    <h1 class="font-cinzel text-sm sm:text-base lg:text-lg font-bold tracking-wider text-magic-goldGlow">GÉNEROS LITERARIOS</h1>
+                    <p class="text-[10px] sm:text-xs text-purple-300 font-medium">Hermenéutica y Exégesis Bíblica • IBP</p>
+                </div>
+            </div>
+
+            <!-- Slide Title Display Center (Desktop) -->
+            <div class="hidden md:flex items-center space-x-2 bg-purple-950/50 px-4 py-1.5 rounded-full border border-purple-800/30">
+                <span class="w-2 h-2 rounded-full bg-magic-gold animate-ping"></span>
+                <span id="currentSlideTitle" class="text-xs lg:text-sm font-semibold text-purple-200">1. Portada Principal</span>
+            </div>
+
+            <!-- Controls & Menu -->
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <button id="videoBtnHeader" onclick="openVideoModal()" class="flex items-center space-x-2 bg-gradient-to-r from-red-600/80 to-purple-800/80 hover:from-red-500 hover:to-purple-700 px-3 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-red-500/40 shadow-lg transition-all duration-300 hover:scale-105">
+                    <i class="fa-solid fa-play text-xs text-white"></i>
+                    <span class="hidden sm:inline">Ver Video</span>
+                </button>
+
+                <!-- Drawer Toggle Button -->
+                <button onclick="toggleMenu()" class="p-2.5 rounded-xl glass-card text-purple-200 hover:text-magic-gold focus:outline-none" title="Abrir Menú de Navegación">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Slide Drawer / Menu Overlay -->
+        <div id="navDrawer" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none flex justify-end">
+            <div class="w-full max-w-sm glass-panel h-full p-6 flex flex-col justify-between overflow-y-auto transform translate-x-full transition-transform duration-300 ease-in-out border-l border-purple-500/30" id="drawerContent">
+                <div>
+                    <div class="flex justify-between items-center pb-4 mb-6 border-b border-purple-800/40">
+                        <h2 class="font-cinzel text-xl font-bold text-magic-gold flex items-center gap-2">
+                            <i class="fa-solid fa-compass"></i> Navegación
+                        </h2>
+                        <button onclick="toggleMenu()" class="text-purple-300 hover:text-white p-2 rounded-lg">
+                            <i class="fa-solid fa-xmark text-xl"></i>
+                        </button>
+                    </div>
+                    <nav class="space-y-2" id="drawerNavList">
+                        <!-- Navigation items populated dynamically -->
+                    </nav>
+                </div>
+                <div class="pt-6 border-t border-purple-900/50 text-center text-xs text-purple-300/70">
+                    Hermenéutica y Exégesis Bíblica - IBP<br>Grupo 4 © 2026
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN PRESENTATION CANVAS AREA -->
+        <main class="flex-grow flex items-center justify-center p-3 sm:p-6 lg:p-10 relative">
+
+            <!-- SLIDE 1: PORTADA -->
+            <section class="slide-page active w-full flex-col items-center justify-center min-h-[calc(100vh-160px)]">
+                <div class="max-w-5xl w-full mx-auto text-center glass-card p-6 sm:p-10 lg:p-14 rounded-3xl relative overflow-hidden border border-purple-500/30">
+                    <div class="absolute -top-24 -left-24 w-60 h-60 bg-magic-purple/20 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="absolute -bottom-24 -right-24 w-60 h-60 bg-magic-gold/15 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <span class="inline-block px-4 py-1.5 rounded-full bg-purple-900/50 border border-purple-500/40 text-magic-gold font-semibold text-xs sm:text-sm mb-6 tracking-widest uppercase shadow-inner">
+                        Exposición Hermenéutica & Exégesis Bíblica
+                    </span>
+
+                    <h1 class="title-hero font-cinzel font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-magic-goldGlow to-magic-gold leading-tight mb-4 text-glow-gold">
+                        GÉNEROS LITERARIOS Y SU INTERPRETACIÓN
+                    </h1>
+                    <h2 class="subtitle-hero font-cinzel text-magic-neonPurple font-semibold mb-8 text-glow-purple tracking-wide">
+                        POESÍA Y SABIDURÍA
+                    </h2>
+
+                    <!-- Information Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 text-left">
+                        <div class="bg-purple-950/40 p-5 rounded-2xl border border-purple-800/30 backdrop-blur-sm">
+                            <h3 class="text-xs uppercase tracking-wider text-magic-gold font-bold mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-graduation-cap"></i> Materia & Grupo
+                            </h3>
+                            <p class="text-sm sm:text-base font-semibold text-purple-100">Hermenéutica y Exégesis Bíblica</p>
+                            <p class="text-xs text-purple-300">Instituto Bíblico Pentecostal (IBP) — Grupo 4</p>
+                        </div>
+                        <div class="bg-purple-950/40 p-5 rounded-2xl border border-purple-800/30 backdrop-blur-sm">
+                            <h3 class="text-xs uppercase tracking-wider text-magic-gold font-bold mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-users"></i> Integrantes Expositores
+                            </h3>
+                            <ul class="text-xs sm:text-sm text-purple-200 grid grid-cols-1 sm:grid-cols-2 gap-1 font-medium">
+                                <li>• Jaimer Sánchez Leal</li>
+                                <li>• Yesica Pahola Pérez S.</li>
+                                <li>• Obdulia Esperanza Correa</li>
+                                <li>• José Santos Hernández G.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Main Video Button -->
+                    <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <button onclick="openVideoModal()" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 via-magic-purple to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-base shadow-neon-purple transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3 group border border-purple-300/30">
+                            <span class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play text-magic-gold text-sm"></i>
+                            </span>
+                            <span>VER PRESENTACIÓN EN VIDEO</span>
+                        </button>
+                        <button onclick="goToSlide(1)" class="w-full sm:w-auto px-8 py-4 rounded-full glass-card hover:bg-purple-900/50 text-purple-200 hover:text-white font-semibold text-base transition-all duration-300 flex items-center justify-center gap-2 border border-purple-500/30">
+                            <span>Iniciar Exposición</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: INTRODUCCIÓN -->
+            <section class="slide-page w-full flex-col items-center justify-center">
+                <div class="max-w-6xl w-full mx-auto space-y-6">
+                    <div class="text-center">
+                        <span class="text-xs font-bold text-magic-gold uppercase tracking-widest">Sección 01</span>
+                        <h2 class="text-2xl sm:text-4xl font-cinzel font-bold text-purple-100 mb-3">La Inspiración Bíblica y los Géneros</h2>
+                        <div class="w-24 h-1 bg-gradient-to-r from-transparent via-magic-gold to-transparent mx-auto mb-6"></div>
+                        <p class="max-w-3xl mx-auto text-sm sm:text-base text-purple-200/90 leading-relaxed italic bg-purple-950/40 p-4 rounded-xl border border-purple-800/40">
+                            "El género literario no debilita la inspiración bíblica; más bien, al ignorarlo se incurre en graves errores de interpretación."
+                        </p>
+                    </div>
+
+                    <h3 class="text-sm font-bold text-center text-magic-neonPurple uppercase tracking-wider mt-6">
+                        Errores Frecuentes de Interpretación <span class="text-xs font-normal text-purple-300">(Pasa el cursor o toca para voltear)</span>
+                    </h3>
+
+                    <!-- 4 Flip Cards Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pt-2">
+                        <!-- Card 1 -->
+                        <div class="flip-card h-56 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front glass-card border-red-500/30">
+                                    <div class="w-12 h-12 rounded-full bg-red-950/80 text-red-400 flex items-center justify-center text-xl mb-3 border border-red-800">
+                                        <i class="fa-solid fa-flask"></i>
+                                    </div>
+                                    <h4 class="font-cinzel text-base font-bold text-red-200 mb-2">Error 1</h4>
+                                    <p class="text-xs text-purple-200 font-medium">Convertir poesía en explicación científica</p>
+                                    <span class="text-[10px] text-magic-gold mt-4 flex items-center gap-1">
+                                        <i class="fa-solid fa-rotate"></i> Clic para ver pasaje
+                                    </span>
+                                </div>
+                                <div class="flip-card-back glass-panel border-magic-gold/50 bg-purple-950/90">
+                                    <h5 class="text-xs font-bold text-magic-gold mb-2">Eclesiastés 1:7</h5>
+                                    <p class="text-xs text-purple-100 leading-snug">
+                                        "Los ríos van todos al mar, y el mar no se llena..."<br><br>
+                                        <span class="text-purple-300 italic">Tratar esto como tratado de hidrología en lugar de poesía existencial distorsiona su mensaje.</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="flip-card h-56 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front glass-card border-amber-500/30">
+                                    <div class="w-12 h-12 rounded-full bg-amber-950/80 text-amber-400 flex items-center justify-center text-xl mb-3 border border-amber-800">
+                                        <i class="fa-solid fa-masks-theater"></i>
+                                    </div>
+                                    <h4 class="font-cinzel text-base font-bold text-amber-200 mb-2">Error 2</h4>
+                                    <p class="text-xs text-purple-200 font-medium">Forzar una parábola a ser alegoría detallada</p>
+                                    <span class="text-[10px] text-magic-gold mt-4 flex items-center gap-1">
+                                        <i class="fa-solid fa-rotate"></i> Clic para ver pasaje
+                                    </span>
+                                </div>
+                                <div class="flip-card-back glass-panel border-magic-gold/50 bg-purple-950/90">
+                                    <h5 class="text-xs font-bold text-magic-gold mb-2">Proverbios 9:1-6</h5>
+                                    <p class="text-xs text-purple-100 leading-snug">
+                                        La invitación de la Sabiduría con sus 7 columnas.<br><br>
+                                        <span class="text-purple-300 italic">Buscar significados místicos ocultos en cada ingrediente destruye el punto principal de la ilustración.</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="flip-card h-56 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front glass-card border-purple-500/30">
+                                    <div class="w-12 h-12 rounded-full bg-purple-950/80 text-purple-300 flex items-center justify-center text-xl mb-3 border border-purple-700">
+                                        <i class="fa-solid fa-scroll"></i>
+                                    </div>
+                                    <h4 class="font-cinzel text-base font-bold text-purple-200 mb-2">Error 3</h4>
+                                    <p class="text-xs text-purple-200 font-medium">Tomar un proverbio como promesa absoluta</p>
+                                    <span class="text-[10px] text-magic-gold mt-4 flex items-center gap-1">
+                                        <i class="fa-solid fa-rotate"></i> Clic para ver pasaje
+                                    </span>
+                                </div>
+                                <div class="flip-card-back glass-panel border-magic-gold/50 bg-purple-950/90">
+                                    <h5 class="text-xs font-bold text-magic-gold mb-2">Proverbios 22:6</h5>
+                                    <p class="text-xs text-purple-100 leading-snug">
+                                        "Instruye al niño en su camino..."<br><br>
+                                        <span class="text-purple-300 italic">Los proverbios expresan principios generales de vida observada, no garantías jurídicas incondicionales.</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="flip-card h-56 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front glass-card border-blue-500/30">
+                                    <div class="w-12 h-12 rounded-full bg-blue-950/80 text-blue-400 flex items-center justify-center text-xl mb-3 border border-blue-800">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </div>
+                                    <h4 class="font-cinzel text-base font-bold text-blue-200 mb-2">Error 4</h4>
+                                    <p class="text-xs text-purple-200 font-medium">Convertir visión apocalíptica en cronograma literal</p>
+                                    <span class="text-[10px] text-magic-gold mt-4 flex items-center gap-1">
+                                        <i class="fa-solid fa-rotate"></i> Clic para ver pasaje
+                                    </span>
+                                </div>
+                                <div class="flip-card-back glass-panel border-magic-gold/50 bg-purple-950/90">
+                                    <h5 class="text-xs font-bold text-magic-gold mb-2">Lenguaje Simbólico</h5>
+                                    <p class="text-xs text-purple-100 leading-snug">
+                                        Imágenes cósmicas y metafóricas.<br><br>
+                                        <span class="text-purple-300 italic">Ignorar la naturaleza poético-simbólica conduce a especulaciones y pánico literalista.</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key takeaway banner -->
+                    <div class="mt-6 p-4 rounded-2xl bg-gradient-to-r from-purple-900/60 via-indigo-900/60 to-purple-900/60 border border-magic-gold/40 text-center shadow-lg">
+                        <p class="text-xs sm:text-sm text-magic-goldGlow font-semibold flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-compass text-magic-gold"></i>
+                            NOTA CLAVE: El género literario orienta y enmarca la correcta interpretación hermenéutica.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: DESARROLLO (ANATOMÍA & FIGURAS) -->
+            <section class="slide-page w-full flex-col items-center justify-center">
+                <div class="max-w-6xl w-full mx-auto space-y-6">
+                    <div class="text-center">
+                        <span class="text-xs font-bold text-magic-gold uppercase tracking-widest">Sección 02</span>
+                        <h2 class="text-2xl sm:text-4xl font-cinzel font-bold text-purple-100">Anatomía Poética y Figuras Retóricas</h2>
+                        <div class="w-24 h-1 bg-gradient-to-r from-transparent via-magic-gold to-transparent mx-auto mt-2"></div>
+                    </div>
+
+                    <!-- Subtabs horizontal -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
+                        
+                        <!-- Col 1: Paralelismos Hebreos -->
+                        <div class="glass-card p-5 sm:p-6 rounded-2xl border border-purple-500/30">
+                            <h3 class="font-cinzel text-lg font-bold text-magic-gold mb-4 flex items-center gap-2 border-b border-purple-800/50 pb-2">
+                                <i class="fa-solid fa-layer-group text-magic-neonPurple"></i>
+                                Paralelismo Poético Hebreo
+                            </h3>
+                            <p class="text-xs text-purple-300 mb-4">La poesía hebrea se basa en la rima de ideas, no de sonidos:</p>
+
+                            <div class="space-y-3">
+                                <div class="bg-purple-950/60 p-3.5 rounded-xl border-l-4 border-magic-gold">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-xs font-bold text-purple-100">1. Paralelismo Sinónimo</span>
+                                        <span class="text-[10px] bg-purple-900/80 px-2 py-0.5 rounded text-magic-gold">Salmos 19:1</span>
+                                    </div>
+                                    <p class="text-xs text-purple-300 italic">"Los cielos cuentan la gloria de Dios, y el firmamento anuncia la obra de sus manos."</p>
+                                    <p class="text-[11px] text-purple-400 mt-1">→ La segunda línea repite el mismo pensamiento con otras palabras.</p>
+                                </div>
+
+                                <div class="bg-purple-950/60 p-3.5 rounded-xl border-l-4 border-pink-500">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-xs font-bold text-purple-100">2. Paralelismo Antitético</span>
+                                        <span class="text-[10px] bg-purple-900/80 px-2 py-0.5 rounded text-pink-300">Proverbios 15:20</span>
+                                    </div>
+                                    <p class="text-xs text-purple-300 italic">"El hijo sabio alegra al padre; mas el hombre necio menosprecia a su madre."</p>
+                                    <p class="text-[11px] text-purple-400 mt-1">→ La segunda línea contrasta de forma opuesta con la primera.</p>
+                                </div>
+
+                                <div class="bg-purple-950/60 p-3.5 rounded-xl border-l-4 border-cyan-400">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-xs font-bold text-purple-100">3. Paralelismo Sintético / Repetitivo</span>
+                                        <span class="text-[10px] bg-purple-900/80 px-2 py-0.5 rounded text-cyan-300">Ec. 11:1 / Sal. 136</span>
+                                    </div>
+                                    <p class="text-xs text-purple-300 italic">"Echa tu pan sobre las aguas; porque después de muchos días lo hallarás."</p>
+                                    <p class="text-[11px] text-purple-400 mt-1">→ La segunda línea completa, amplía o desarrolla la idea inicial.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Col 2: Figuras Retóricas -->
+                        <div class="glass-card p-5 sm:p-6 rounded-2xl border border-purple-500/30">
+                            <h3 class="font-cinzel text-lg font-bold text-magic-gold mb-4 flex items-center gap-2 border-b border-purple-800/50 pb-2">
+                                <i class="fa-solid fa-wand-magic-sparkles text-magic-cyan"></i>
+                                Principales Figuras Retóricas
+                            </h3>
+
+                            <div class="space-y-4">
+                                <div class="bg-purple-950/40 p-4 rounded-xl border border-purple-800/40">
+                                    <h4 class="text-xs font-bold text-magic-neonPurple flex items-center gap-2 mb-1">
+                                        <i class="fa-solid fa-heart text-pink-400"></i> Metáforas
+                                    </h4>
+                                    <p class="text-xs text-purple-200">
+                                        <strong class="text-magic-gold">Cantares 4:12:</strong> "Huerto cerrado eres, hermana mía, esposa mía; fuente cerrada, fuente sellada."
+                                    </p>
+                                    <p class="text-[11px] text-purple-400 mt-1">Expresa pureza, intimidad y exclusividad del amor conyugal.</p>
+                                </div>
+
+                                <div class="bg-purple-950/40 p-4 rounded-xl border border-purple-800/40">
+                                    <h4 class="text-xs font-bold text-magic-neonPurple flex items-center gap-2 mb-1">
+                                        <i class="fa-solid fa-bolt text-yellow-400"></i> Hipérboles
+                                    </h4>
+                                    <p class="text-xs text-purple-200">
+                                        <strong class="text-magic-gold">Job 16:12-14:</strong> "Prospero estaba, y me desmenuzó; me tomó por el cuello y me despedazó..."
+                                    </p>
+                                    <p class="text-[11px] text-purple-400 mt-1">Exageración poética para reflejar dolor extremo inaccesible al lenguaje común.</p>
+                                </div>
+
+                                <div class="bg-purple-950/40 p-4 rounded-xl border border-purple-800/40">
+                                    <h4 class="text-xs font-bold text-magic-neonPurple flex items-center gap-2 mb-1">
+                                        <i class="fa-solid fa-eye text-cyan-400"></i> Antropomorfismo
+                                    </h4>
+                                    <p class="text-xs text-purple-200">
+                                        <strong class="text-magic-gold">Proverbios 15:3:</strong> "Los ojos de Jehová están en todo lugar, mirando a los malos y a los buenos."
+                                    </p>
+                                    <p class="text-[11px] text-purple-400 mt-1">Atribución de características humanas a Dios para comunicar su omnipresencia.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: ESCRITORES, AUDIENCIA Y PROPÓSITO -->
+            <section class="slide-page w-full flex-col items-center justify-center">
+                <div class="max-w-6xl w-full mx-auto space-y-6">
+                    <div class="text-center">
+                        <span class="text-xs font-bold text-magic-gold uppercase tracking-widest">Sección 03</span>
+                        <h2 class="text-2xl sm:text-4xl font-cinzel font-bold text-purple-100">Escritores, Audiencia y Propósito</h2>
+                        <div class="w-24 h-1 bg-gradient-to-r from-transparent via-magic-gold to-transparent mx-auto mt-2"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                        <!-- Autores -->
+                        <div class="glass-card p-5 rounded-2xl border border-purple-500/30 flex flex-col justify-between">
+                            <div>
+                                <div class="w-10 h-10 rounded-full bg-purple-900/80 text-magic-gold flex items-center justify-center text-lg mb-3 border border-purple-600">
+                                    <i class="fa-solid fa-pen-nib"></i>
+                                </div>
+                                <h3 class="font-cinzel text-base font-bold text-magic-gold mb-3">Escritores Inspirados</h3>
+                                <div class="flex flex-wrap gap-2 text-xs">
+                                    <span class="px-2.5 py-1 rounded-md bg-purple-950 border border-purple-700 text-purple-200">Moisés</span>
+                                    <span class="px-2.5 py-1 rounded-md bg-purple-950 border border-purple-700 text-purple-200">David</span>
+                                    <span class="px-2.5 py-1 rounded-md bg-purple-950 border border-purple-700 text-purple-200">Salomón</span>
+                                    <span class="px-2.5 py-1 rounded-md bg-purple-950 border border-purple-700 text-purple-200">Asaf</span>
+                                    <span class="px-2.5 py-1 rounded-md bg-purple-950 border border-purple-700 text-purple-200">Hemán</span>
+                                    <span class="px-2.5 py-1 rounded-md bg-purple-950 border border-purple-700 text-purple-200">Agur</span>
+                                    <span class="px-2.5 py-1 rounded-md bg-purple-950 border border-purple-700 text-purple-200">Lemuel</span>
+                                    <span class="px-2.5 py-1 rounded-md bg-purple-950 border border-purple-700 text-purple-200">Hijos de Coré</span>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-purple-300 mt-4 pt-3 border-t border-purple-800/40">
+                                Una diversidad de voces, desde reyes e himnólogos hasta sabios de diversas épocas.
+                            </p>
+                        </div>
+
+                        <!-- Audiencia -->
+                        <div class="glass-card p-5 rounded-2xl border border-purple-500/30 flex flex-col justify-between">
+                            <div>
+                                <div class="w-10 h-10 rounded-full bg-purple-900/80 text-magic-cyan flex items-center justify-center text-lg mb-3 border border-purple-600">
+                                    <i class="fa-solid fa-users-viewfinder"></i>
+                                </div>
+                                <h3 class="font-cinzel text-base font-bold text-magic-cyan mb-3">Destinatarios</h3>
+                                <ul class="text-xs text-purple-200 space-y-2">
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-magic-cyan"></i> Pueblo de Israel en su culto cotidiano</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-magic-cyan"></i> Jóvenes en formación moral y práctica</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-magic-cyan"></i> Público reflexivo enfrentando sufrimientos</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-magic-cyan"></i> Esposos y novios (el pacto de amor)</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-magic-cyan"></i> Toda la humanidad en busca de Dios</li>
+                                </ul>
+                            </div>
+                            <p class="text-[11px] text-purple-300 mt-4 pt-3 border-t border-purple-800/40">
+                                Aplicación universal para las emociones y etapas humanas.
+                            </p>
+                        </div>
+
+                        <!-- Contenido Expresado -->
+                        <div class="glass-card p-5 rounded-2xl border border-purple-500/30 flex flex-col justify-between">
+                            <div>
+                                <div class="w-10 h-10 rounded-full bg-purple-900/80 text-pink-400 flex items-center justify-center text-lg mb-3 border border-purple-600">
+                                    <i class="fa-solid fa-heart-pulse"></i>
+                                </div>
+                                <h3 class="font-cinzel text-base font-bold text-pink-300 mb-3">Expresión Existencial</h3>
+                                <ul class="text-xs text-purple-200 space-y-2">
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-circle text-[6px] text-pink-400"></i> Debates filosóficos y teológicos profundos</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-circle text-[6px] text-pink-400"></i> La gama completa de emociones humanas</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-circle text-[6px] text-pink-400"></i> Principios de ética cotidiana</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-circle text-[6px] text-pink-400"></i> Conciencia de la brevedad de la vida</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-circle text-[6px] text-pink-400"></i> Exaltación de la fidelidad y el gozo</li>
+                                </ul>
+                            </div>
+                            <p class="text-[11px] text-purple-300 mt-4 pt-3 border-t border-purple-800/40">
+                                Diálogo genuino del ser humano con el Creador.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Propósitos -->
+                    <div class="glass-panel p-5 rounded-2xl border border-magic-gold/30 mt-4">
+                        <h3 class="font-cinzel text-sm font-bold text-magic-gold mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-bullseye text-magic-gold"></i> PROPÓSITO CENTRAL DE ESTOS ESCRITOS
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-purple-200">
+                            <div class="bg-purple-950/60 p-3 rounded-xl border border-purple-800/40">
+                                <strong class="text-magic-goldGlow block mb-1">Desmontar Falsas Teologías</strong>
+                                Desarmar esquemas simplistas de retribución (como la actitud de los amigos de Job).
+                            </div>
+                            <div class="bg-purple-950/60 p-3 rounded-xl border border-purple-800/40">
+                                <strong class="text-magic-goldGlow block mb-1">Guía Litúrgica y Personal</strong>
+                                Conducir al creyente en la oración, alabanza, clamor y adoración profunda.
+                            </div>
+                            <div class="bg-purple-950/60 p-3 rounded-xl border border-purple-800/40">
+                                <strong class="text-magic-goldGlow block mb-1">Formación Carácter Moral</strong>
+                                Moldear la sabiduría práctica e integridad en las decisiones cotidianas.
+                            </div>
+                            <div class="bg-purple-950/60 p-3 rounded-xl border border-purple-800/40">
+                                <strong class="text-magic-goldGlow block mb-1">Certeza Eterna</strong>
+                                Demostrar que lo terrenal es pasajero y solo Dios permanece como nuestra porción.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: MARCO GEOGRÁFICO E HISTÓRICO (MAPA INTERACTIVO) -->
+            <section class="slide-page w-full flex-col items-center justify-center">
+                <div class="max-w-6xl w-full mx-auto space-y-6">
+                    <div class="text-center">
+                        <span class="text-xs font-bold text-magic-gold uppercase tracking-widest">Sección 04</span>
+                        <h2 class="text-2xl sm:text-4xl font-cinzel font-bold text-purple-100">Marco Geográfico e Histórico</h2>
+                        <p class="text-xs sm:text-sm text-purple-300 mt-1">Un recorrido que abarca casi un milenio de historia bíblica</p>
+                        <div class="w-24 h-1 bg-gradient-to-r from-transparent via-magic-gold to-transparent mx-auto mt-2"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        <!-- Map Display (Interactive SVG Graphic) -->
+                        <div class="lg:col-span-7 glass-card p-4 sm:p-6 rounded-2xl border border-purple-500/30 relative">
+                            <h3 class="text-xs font-bold text-magic-gold uppercase tracking-wider mb-3 flex items-center justify-between">
+                                <span><i class="fa-solid fa-map-location-dot"></i> Región del Antiguo Cercano Oriente</span>
+                                <span class="text-[10px] text-purple-300 font-normal">(Haz clic en los marcadores)</span>
+                            </h3>
+
+                            <!-- Stylized SVG Map -->
+                            <div class="relative w-full aspect-[16/9] bg-purple-950/80 rounded-xl border border-purple-800/50 overflow-hidden flex items-center justify-center">
+                                <svg class="w-full h-full text-purple-900 opacity-40" viewBox="0 0 800 450" fill="currentColor">
+                                    <!-- Simplified coastline contour -->
+                                    <path d="M 0,0 L 800,0 L 800,450 L 0,450 Z" fill="#0d0818" />
+                                    <path d="M 150,0 Q 220,120 180,220 T 120,450 L 0,450 L 0,0 Z" fill="#180e2b" />
+                                    <path d="M 280,180 Q 320,120 400,100 T 550,150 T 700,200 L 800,450 L 220,450 Z" fill="#1f1238" />
+                                    <line x1="200" y1="200" x2="350" y2="280" stroke="#7209b7" stroke-width="2" stroke-dasharray="4" />
+                                </svg>
+
+                                <!-- Map Marker 1: Israel / Jerusalén -->
+                                <button onclick="selectMapLocation('israel')" class="absolute top-[45%] left-[28%] group focus:outline-none">
+                                    <span class="absolute -inset-2 bg-magic-gold/30 rounded-full animate-ping"></span>
+                                    <div class="relative w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-600 to-magic-gold flex items-center justify-center shadow-neon-gold border border-white text-purple-950 font-bold text-xs group-hover:scale-125 transition-transform">
+                                        <i class="fa-solid fa-place-of-worship"></i>
+                                    </div>
+                                    <span class="absolute top-9 -left-6 bg-black/90 text-magic-gold text-[10px] px-2 py-0.5 rounded font-bold whitespace-nowrap border border-magic-gold/40">
+                                        Antiguo Israel
+                                    </span>
+                                </button>
+
+                                <!-- Map Marker 2: Tierra de Uz -->
+                                <button onclick="selectMapLocation('uz')" class="absolute top-[60%] left-[55%] group focus:outline-none">
+                                    <span class="absolute -inset-2 bg-magic-neonPurple/30 rounded-full animate-ping"></span>
+                                    <div class="relative w-8 h-8 rounded-full bg-gradient-to-tr from-purple-700 to-magic-neonPurple flex items-center justify-center shadow-neon-purple border border-white text-white font-bold text-xs group-hover:scale-125 transition-transform">
+                                        <i class="fa-solid fa-mountain-sun"></i>
+                                    </div>
+                                    <span class="absolute top-9 -left-4 bg-black/90 text-magic-neonPurple text-[10px] px-2 py-0.5 rounded font-bold whitespace-nowrap border border-purple-500/40">
+                                        Tierra de Uz
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Interactive info card side panel -->
+                        <div class="lg:col-span-5 space-y-4">
+                            <div id="mapInfoCard" class="glass-panel p-5 rounded-2xl border border-magic-gold/40 min-h-[220px] flex flex-col justify-center">
+                                <h4 id="mapInfoTitle" class="font-cinzel text-lg font-bold text-magic-gold mb-2 flex items-center gap-2">
+                                    <i class="fa-solid fa-clock-rotate-left"></i> Marco Histórico
+                                </h4>
+                                <p id="mapInfoText" class="text-xs text-purple-200 leading-relaxed">
+                                    La producción poética y de sabiduría abarca un periodo amplio: desde la época patriarcal (Job, hacia el siglo 20-18 a.C.) hasta el periodo posterior al exilio babilónico (siglos V-III a.C.). Selecciona un marcador en el mapa para explorar los detalles geográficos.
+                                </p>
+                            </div>
+
+                            <div class="bg-purple-950/50 p-4 rounded-xl border border-purple-800/30 text-xs text-purple-300">
+                                <strong class="text-magic-gold font-bold block mb-1">Amplitud Geográfica:</strong>
+                                Desde los desiertos del oriente (Uz/Edom) hasta las cortes reales de Jerusalén y las comunidades posexílicas.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: RESPUESTAS A PROBLEMAS Y COMPLEMENTARIEDAD -->
+            <section class="slide-page w-full flex-col items-center justify-center">
+                <div class="max-w-6xl w-full mx-auto space-y-6">
+                    <div class="text-center">
+                        <span class="text-xs font-bold text-magic-gold uppercase tracking-widest">Sección 05</span>
+                        <h2 class="text-2xl sm:text-4xl font-cinzel font-bold text-purple-100">Problemas Fundamentales y Contexto</h2>
+                        <div class="w-24 h-1 bg-gradient-to-r from-transparent via-magic-gold to-transparent mx-auto mt-2"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
+
+                        <!-- Respuestas a Problemas -->
+                        <div class="glass-card p-5 rounded-2xl border border-purple-500/30">
+                            <h3 class="font-cinzel text-base font-bold text-magic-gold mb-3 flex items-center gap-2 border-b border-purple-800/40 pb-2">
+                                <i class="fa-solid fa-shield-halved text-magic-gold"></i>
+                                Respuestas a Problemas Cruciales
+                            </h3>
+                            <ul class="space-y-2.5 text-xs text-purple-200">
+                                <li class="p-2.5 rounded-lg bg-purple-950/50 border border-purple-800/30">
+                                    <strong class="text-magic-goldGlow block">1. El Sufrimiento del Justo:</strong>
+                                    ¿Por qué padece el inocente? Reflejado en las luchas de Job y Salmos de lamentación.
+                                </li>
+                                <li class="p-2.5 rounded-lg bg-purple-950/50 border border-purple-800/30">
+                                    <strong class="text-magic-goldGlow block">2. Comunicación Honesta con Dios:</strong>
+                                    Permiso para expresar la duda, la culpa, el abandono y la persecución en oración.
+                                </li>
+                                <li class="p-2.5 rounded-lg bg-purple-950/50 border border-purple-800/30">
+                                    <strong class="text-magic-goldGlow block">3. Vivir Prudentemente:</strong>
+                                    El temor del Señor aplicado a las finanzas, palabras, familia y trabajo.
+                                </li>
+                                <li class="p-2.5 rounded-lg bg-purple-950/50 border border-purple-800/30">
+                                    <strong class="text-magic-goldGlow block">4. Amor e Intimidad:</strong>
+                                    La dignificación del amor conyugal y la pasión en el diseño divino (Cantares).
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Complementariedad Canon -->
+                        <div class="glass-card p-5 rounded-2xl border border-purple-500/30">
+                            <h3 class="font-cinzel text-base font-bold text-magic-cyan mb-3 flex items-center gap-2 border-b border-purple-800/40 pb-2">
+                                <i class="fa-solid fa-diagram-project text-magic-cyan"></i>
+                                Complementariedad en el Canon
+                            </h3>
+                            <div class="space-y-3 text-xs">
+                                <div class="p-3 rounded-lg bg-purple-950/60 border-l-4 border-amber-400">
+                                    <h4 class="font-bold text-amber-200">Libros Históricos (Acontecimientos)</h4>
+                                    <p class="text-purple-300">Narran los hechos externos colectivos y la trayectoria nacional de Israel.</p>
+                                </div>
+                                <div class="p-3 rounded-lg bg-purple-950/60 border-l-4 border-magic-neonPurple">
+                                    <h4 class="font-bold text-magic-neonPurple">Libros Poéticos / Sabiduría (Interioridad)</h4>
+                                    <p class="text-purple-300">Exploran la respuesta del alma humana, el corazón del individuo ante las realidades de la vida.</p>
+                                </div>
+                                <div class="p-3 rounded-lg bg-purple-950/60 border-l-4 border-red-400">
+                                    <h4 class="font-bold text-red-300">Libros Proféticos (Estándar Moral)</h4>
+                                    <p class="text-purple-300">Proclaman el llamado directo de Dios y el juicio divino frente a la apostasía.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: EL PUENTE: AYER Y HOY -->
+            <section class="slide-page w-full flex-col items-center justify-center">
+                <div class="max-w-5xl w-full mx-auto space-y-6 text-center">
+                    <span class="text-xs font-bold text-magic-gold uppercase tracking-widest">Sección 06</span>
+                    <h2 class="text-3xl sm:text-5xl font-cinzel font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-magic-gold via-purple-200 to-magic-neonPurple">
+                        EL PUENTE: AYER Y HOY
+                    </h2>
+                    <p class="text-sm sm:text-base text-purple-200 max-w-2xl mx-auto">
+                        Conexión entre la sabiduría del mundo bíblico antiguo y los desafíos de nuestra sociedad actual.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 text-left">
+                        <!-- El Mundo Bíblico (Ayer) -->
+                        <div class="glass-card p-6 rounded-2xl border border-amber-500/30">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-full bg-amber-950 text-amber-400 flex items-center justify-center text-lg border border-amber-700">
+                                    <i class="fa-solid fa-scroll"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-cinzel text-lg font-bold text-amber-200">El Mundo Bíblico (Ayer)</h3>
+                                    <span class="text-[10px] text-amber-400">Proverbios 15:3</span>
+                                </div>
+                            </div>
+                            <p class="text-xs sm:text-sm text-purple-200 leading-relaxed">
+                                Dios estaba personal e infinitamente cercano. Los ojos de Jehová escudriñaban las intenciones secretas. La sabiduría consistía en reconocer su presencia constante en el trabajo, la familia y el silencio.
+                            </p>
+                        </div>
+
+                        <!-- La Era Digital (Hoy) -->
+                        <div class="glass-card p-6 rounded-2xl border border-magic-cyan/30">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-full bg-cyan-950 text-magic-cyan flex items-center justify-center text-lg border border-cyan-700">
+                                    <i class="fa-solid fa-mobile-screen-button"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-cinzel text-lg font-bold text-magic-cyan">La Era Digital (Hoy)</h3>
+                                    <span class="text-[10px] text-magic-cyan">Fachada vs. Intimidad Real</span>
+                                </div>
+                            </div>
+                            <p class="text-xs sm:text-sm text-purple-200 leading-relaxed">
+                                Enfrentamos la tentación de proyectar fachadas piadosas en redes sociales. La sabiduría poética nos desafía: ¿Cómo es nuestra espiritualidad en la intimidad cuando nadie nos ve?
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Action Transition Button -->
+                    <div class="pt-4">
+                        <button onclick="goToSlide(7)" class="px-8 py-4 rounded-full bg-gradient-to-r from-magic-purple to-magic-gold hover:from-purple-500 hover:to-amber-400 text-purple-950 font-extrabold text-sm sm:text-base shadow-neon-gold transition-all duration-300 transform hover:scale-105 border border-amber-200/50">
+                            ¡PASEMOS AL PANEL FINAL! <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: GALERÍA / PANEL FINAL - LOS 5 LIBROS POÉTICOS -->
+            <section class="slide-page w-full flex-col items-center justify-center">
+                <div class="max-w-6xl w-full mx-auto space-y-6">
+                    <div class="text-center">
+                        <span class="text-xs font-bold text-magic-gold uppercase tracking-widest">Panel Final</span>
+                        <h2 class="text-2xl sm:text-4xl font-cinzel font-bold text-purple-100">Los 5 Libros Poéticos y de Sabiduría</h2>
+                        <div class="w-24 h-1 bg-gradient-to-r from-transparent via-magic-gold to-transparent mx-auto mt-2 mb-4"></div>
+                    </div>
+
+                    <!-- 5 Books Responsive Cards Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                        
+                        <!-- JOB -->
+                        <div class="glass-card p-5 rounded-2xl border-purple-500/30 flex flex-col justify-between hover:border-magic-gold transition-all">
+                            <div>
+                                <span class="text-[10px] font-bold uppercase text-purple-400">Libro 1</span>
+                                <h3 class="font-cinzel text-xl font-bold text-magic-gold my-2">JOB</h3>
+                                <p class="text-xs text-purple-200 leading-snug">
+                                    El sufrimiento del justo y la fe firme sin fórmulas simplistas.
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-purple-800/40 text-[11px] text-magic-neonPurple font-medium flex items-center gap-1">
+                                <i class="fa-solid fa-fire-flame-curved"></i> Soberanía en la prueba
+                            </div>
+                        </div>
+
+                        <!-- SALMOS -->
+                        <div class="glass-card p-5 rounded-2xl border-purple-500/30 flex flex-col justify-between hover:border-magic-gold transition-all">
+                            <div>
+                                <span class="text-[10px] font-bold uppercase text-purple-400">Libro 2</span>
+                                <h3 class="font-cinzel text-xl font-bold text-magic-cyan my-2">SALMOS</h3>
+                                <p class="text-xs text-purple-200 leading-snug">
+                                    El himnario del alma: oración, clamor, alabanza y adoración.
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-purple-800/40 text-[11px] text-magic-cyan font-medium flex items-center gap-1">
+                                <i class="fa-solid fa-music"></i> Expresión cultual humana
+                            </div>
+                        </div>
+
+                        <!-- PROVERBIOS -->
+                        <div class="glass-card p-5 rounded-2xl border-purple-500/30 flex flex-col justify-between hover:border-magic-gold transition-all">
+                            <div>
+                                <span class="text-[10px] font-bold uppercase text-purple-400">Libro 3</span>
+                                <h3 class="font-cinzel text-xl font-bold text-amber-300 my-2">PROVERBIOS</h3>
+                                <p class="text-xs text-purple-200 leading-snug">
+                                    Sabiduría práctica, temor de Dios y prudencia cotidiana.
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-purple-800/40 text-[11px] text-amber-300 font-medium flex items-center gap-1">
+                                <i class="fa-solid fa-compass"></i> Conducta y carácter
+                            </div>
+                        </div>
+
+                        <!-- ECLESIASTÉS -->
+                        <div class="glass-card p-5 rounded-2xl border-purple-500/30 flex flex-col justify-between hover:border-magic-gold transition-all">
+                            <div>
+                                <span class="text-[10px] font-bold uppercase text-purple-400">Libro 4</span>
+                                <h3 class="font-cinzel text-xl font-bold text-pink-400 my-2">ECLESIASTÉS</h3>
+                                <p class="text-xs text-purple-200 leading-snug">
+                                    El sentido de la vida humana bajo el sol y sus certezas finales.
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-purple-800/40 text-[11px] text-pink-400 font-medium flex items-center gap-1">
+                                <i class="fa-solid fa-hourglass-half"></i> Reflexión existencial
+                            </div>
+                        </div>
+
+                        <!-- CANTARES -->
+                        <div class="glass-card p-5 rounded-2xl border-purple-500/30 flex flex-col justify-between hover:border-magic-gold transition-all sm:col-span-2 lg:col-span-1">
+                            <div>
+                                <span class="text-[10px] font-bold uppercase text-purple-400">Libro 5</span>
+                                <h3 class="font-cinzel text-xl font-bold text-rose-300 my-2">CANTARES</h3>
+                                <p class="text-xs text-purple-200 leading-snug">
+                                    El amor puro, la pasión, la fidelidad conyugal y el cuidado mutuo.
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-purple-800/40 text-[11px] text-rose-300 font-medium flex items-center gap-1">
+                                <i class="fa-solid fa-heart"></i> Exaltación del amor divino
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Closing Statement Card -->
+                    <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-magic-gold/50 text-center relative overflow-hidden mt-6">
+                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-magic-gold/10 rounded-full blur-2xl"></div>
+                        <i class="fa-solid fa-quote-left text-3xl text-magic-gold/40 mb-3 block"></i>
+                        <blockquote class="font-cinzel text-base sm:text-xl text-magic-goldGlow font-semibold max-w-4xl mx-auto leading-relaxed">
+                            "La poesía bíblica forma la mente y el corazón; nace de reconocer a Dios como fuente de verdad y de vivir con temor de Dios en las situaciones cotidianas."
+                        </blockquote>
+                        <div class="mt-4 text-xs text-purple-300 font-medium">
+                            — Conclusión de la Exposición • Grupo 4 (Hermenéutica y Exégesis Bíblica)
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- BOTTOM SLIDE CONTROLLER BAR -->
+        <footer class="glass-panel sticky bottom-0 z-40 px-4 py-3 border-t border-purple-900/40 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <!-- Progress Bar -->
+            <div class="w-full sm:w-1/3 flex flex-col space-y-1">
+                <div class="flex justify-between text-[11px] text-purple-300 font-medium">
+                    <span>Progreso de Diapositivas</span>
+                    <span id="slideProgressText">1 de 8</span>
+                </div>
+                <div class="w-full h-1.5 bg-purple-950 rounded-full overflow-hidden border border-purple-800/40">
+                    <div id="slideProgressBar" class="h-full bg-gradient-to-r from-magic-purple to-magic-gold transition-all duration-300 w-[12.5%]"></div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex items-center space-x-3">
+                <button onclick="prevSlide()" id="btnPrev" class="px-4 py-2 rounded-xl glass-card text-purple-200 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 text-xs font-semibold">
+                    <i class="fa-solid fa-chevron-left"></i>
+                    <span>Anterior</span>
+                </button>
+
+                <div class="flex space-x-1" id="dotsContainer">
+                    <!-- Dynamic Dots generated by JS -->
+                </div>
+
+                <button onclick="nextSlide()" id="btnNext" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-700 to-magic-purple hover:from-purple-600 hover:to-purple-500 text-white flex items-center gap-2 text-xs font-semibold shadow-neon-purple">
+                    <span>Siguiente</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- MODAL POPUP FOR YOUTUBE VIDEO -->
+    <div id="videoModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-lg flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="max-w-4xl w-full glass-panel rounded-2xl border border-purple-500/40 overflow-hidden flex flex-col shadow-2xl">
+            <div class="p-4 bg-purple-950/80 border-b border-purple-800/50 flex items-center justify-between">
+                <h3 class="font-cinzel text-sm sm:text-base font-bold text-magic-gold flex items-center gap-2">
+                    <i class="fa-solid fa-video text-red-500"></i> Video de la Presentación
+                </h3>
+                <button onclick="closeVideoModal()" class="text-purple-300 hover:text-white p-1 rounded-lg">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="relative w-full aspect-video bg-black flex items-center justify-center">
+                <iframe id="youtubeIframe" class="w-full h-full" src="" title="Video de la Presentación" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <div class="p-3 bg-purple-950/60 text-center flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-purple-300">
+                <span>¿No se reproduce adecuadamente?</span>
+                <a href="https://youtu.be/yuRjX61eWmA" target="_blank" rel="noopener font-semibold text-magic-gold hover:underline flex items-center gap-1">
+                    <span>Abrir en aplicación de YouTube</span>
+                    <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Presentation Slides Titles Array
+        const slidesTitles = [
+            "1. Portada Principal",
+            "2. La Inspiración y Géneros",
+            "3. Anatomía y Figuras Poéticas",
+            "4. Escritores, Audiencia y Propósito",
+            "5. Marco Geográfico e Histórico",
+            "6. Problemas y Complementariedad",
+            "7. El Puente: Ayer y Hoy",
+            "8. Panel Final: Los 5 Libros"
+        ];
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide-page');
+        const totalSlides = slides.length;
+
+        // Initialize presentation setup
+        window.addEventListener('DOMContentLoaded', () => {
+            initMenuDrawer();
+            initDots();
+            updateSlideView();
+            initParticles();
+        });
+
+        // Navigation Functions
+        function goToSlide(index) {
+            if (index >= 0 && index < totalSlides) {
+                currentSlide = index;
+                updateSlideView();
+                // Close menu if open
+                closeMenu();
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlideView();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlideView();
+            }
+        }
+
+        function updateSlideView() {
+            slides.forEach((slide, idx) => {
+                if (idx === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            // Update Slide Titles & Controls
+            document.getElementById('currentSlideTitle').innerText = slidesTitles[currentSlide];
+            document.getElementById('slideProgressText').innerText = `${currentSlide + 1} de ${totalSlides}`;
+            
+            const progressPercent = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('slideProgressBar').style.width = `${progressPercent}%`;
+
+            // Button Disable states
+            document.getElementById('btnPrev').disabled = (currentSlide === 0);
+            
+            const btnNext = document.getElementById('btnNext');
+            if (currentSlide === totalSlides - 1) {
+                btnNext.innerHTML = '<span>Inicio</span> <i class="fa-solid fa-rotate-right"></i>';
+                btnNext.onclick = () => goToSlide(0);
+            } else {
+                btnNext.innerHTML = '<span>Siguiente</span> <i class="fa-solid fa-chevron-right"></i>';
+                btnNext.onclick = nextSlide;
+            }
+
+            // Update Dots
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach((dot, idx) => {
+                if (idx === currentSlide) {
+                    dot.className = 'nav-dot w-5 h-2 bg-magic-gold rounded-full transition-all';
+                } else {
+                    dot.className = 'nav-dot w-2 h-2 bg-purple-800 hover:bg-purple-600 rounded-full transition-all cursor-pointer';
+                }
+            });
+        }
+
+        // Initialize Pagination Dots
+        function initDots() {
+            const container = document.getElementById('dotsContainer');
+            container.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = 'nav-dot';
+                dot.onclick = () => goToSlide(i);
+                dot.title = slidesTitles[i];
+                container.appendChild(dot);
+            }
+        }
+
+        // Initialize Drawer Navigation
+        function initMenuDrawer() {
+            const navList = document.getElementById('drawerNavList');
+            navList.innerHTML = '';
+            slidesTitles.forEach((title, index) => {
+                const item = document.createElement('button');
+                item.className = 'w-full text-left px-4 py-3 rounded-xl transition-all flex items-center justify-between text-xs font-semibold text-purple-200 hover:bg-purple-900/60 hover:text-magic-gold border border-transparent hover:border-purple-700/50';
+                item.innerHTML = `<span>${title}</span> <i class="fa-solid fa-angle-right text-[10px]"></i>`;
+                item.onclick = () => goToSlide(index);
+                navList.appendChild(item);
+            });
+        }
+
+        function toggleMenu() {
+            const drawer = document.getElementById('navDrawer');
+            const content = document.getElementById('drawerContent');
+            if (drawer.classList.contains('opacity-0')) {
+                drawer.classList.remove('opacity-0', 'pointer-events-none');
+                content.classList.remove('translate-x-full');
+            } else {
+                closeMenu();
+            }
+        }
+
+        function closeMenu() {
+            const drawer = document.getElementById('navDrawer');
+            const content = document.getElementById('drawerContent');
+            content.classList.add('translate-x-full');
+            drawer.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // Interactive Map Selector Logic
+        function selectMapLocation(place) {
+            const title = document.getElementById('mapInfoTitle');
+            const text = document.getElementById('mapInfoText');
+            const card = document.getElementById('mapInfoCard');
+
+            card.classList.add('scale-95');
+            setTimeout(() => {
+                if (place === 'uz') {
+                    title.innerHTML = '<i class="fa-solid fa-mountain-sun text-magic-neonPurple"></i> Tierra de Uz (Historia patriarcal)';
+                    text.innerHTML = 'Hogar del patriarca Job. Ubicado en las regiones desérticas orientales o al sur de Edom. Representa el escenario más antiguo del libro poético de Job (hacia los tiempos patriarcales, pre-Mosaico).';
+                } else if (place === 'israel') {
+                    title.innerHTML = '<i class="fa-solid fa-place-of-worship text-magic-gold"></i> Antiguo Israel y Jerusalén';
+                    text.innerHTML = 'Centro de la monarquía unida y dividida. David organizó la música del templo en Jerusalén (Salmos) y Salomón escribió Proverbios, Eclesiastés y Cantares desde las cortes reales de Israel.';
+                }
+                card.classList.remove('scale-95');
+            }, 150);
+        }
+
+        // Modal Video Popup logic
+        function openVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('youtubeIframe');
+            iframe.src = "https://www.youtube.com/embed/yuRjX61eWmA?autoplay=1";
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('youtubeIframe');
+            iframe.src = ""; // Stop video playback
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // Keyboard Arrow Key Navigation & Touch Swiping
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === 'Escape') {
+                closeVideoModal();
+                closeMenu();
+            }
+        });
+
+        // Touch Swipe detection for Mobile devices
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 60) {
+                nextSlide(); // Swipe Left
+            }
+            if (touchEndX > touchStartX + 60) {
+                prevSlide(); // Swipe Right
+            }
+        }
+
+        // Interactive Particle Canvas Animation Background
+        function initParticles() {
+            const canvas = document.getElementById('magicCanvas');
+            const ctx = canvas.getContext('2d');
+
+            let particlesArray = [];
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.size = Math.random() * 2.5 + 0.5;
+                    this.speedX = (Math.random() - 0.5) * 0.4;
+                    this.speedY = (Math.random() - 0.5) * 0.4;
+                    this.color = ['#9d4edd', '#c77dff', '#ffd166', '#4cc9f0'][Math.floor(Math.random() * 4)];
+                    this.opacity = Math.random() * 0.7 + 0.2;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.x < 0) this.x = width;
+                    if (this.x > width) this.x = 0;
+                    if (this.y < 0) this.y = height;
+                    if (this.y > height) this.y = 0;
+                }
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.globalAlpha = this.opacity;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < 75; i++) {
+                particlesArray.push(new Particle());
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, width, height);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                    particlesArray[i].draw();
+                }
+                requestAnimationFrame(animateParticles);
+            }
+
+            animateParticles();
+        }
+    </script>
+</body>
+</html>
